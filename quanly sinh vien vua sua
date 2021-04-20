@@ -9,24 +9,17 @@ struct Employee{
 	int age;
 	int mssv;
 };
-typedef  struct Employee NV;
-struct DanhSach
-{
-	NV a[max];
-	int n;
-};
-typedef struct DanhSach danhsach;
+typedef Employee NV;
 void Nhap(NV  &x);
-void NhapN(danhsach &ds);
+void NhapN(NV a[], int &n);
 void Xuat(NV x);
-void XuatN(danhsach ds);
-void XuatFile(danhsach ds, char fileName );
-void thoat();
+void XuatN(NV a[], int n);
+void XuatFile(NV a[], int n, char fileName );
 void ThemNV(NV a[], int n , int b);
-void TimNvTheotinh(danhsach ds , char c[] );
-void Sapxep(danhsach ds );
-void ThongKe(danhsach ds );
-void xuatFile(danhsach ds,char fileName[] );
+void TimNvTheotinh(NV a[], int n , char c[] );
+void Sapxep(NV a[], int n );
+void ThongKe(NV a[], int n );
+void xuatFile(NV a[], int n,char fileName[] );
 void menu();
 
 int main(){
@@ -45,39 +38,39 @@ void Nhap(NV &x){
 	printf("\n Nhap ma so sinh vien : ");
 	scanf("%d",&x.mssv);
 } 
-void NhapN(danhsach &ds){
+void NhapN(NV a[], int &n){
 	printf("\n___________________________________________________________________\n");
-	for(int i = 0 ; i < ds.n ; i++ ){
+	for(int i = 0 ; i < n ; i++ ){
 		printf("\n Thong tin nhan vien thu %d : ",i+1);
-	    Nhap(ds.a[i]);
+	    Nhap(a[i]);
 	}
 	printf("\n___________________________________________________________________\n");
 }
 void Xuat(NV x){
      printf("\n %-20s %-20s %-15d %-15d\n",x.name,x.province,x.age,x.mssv);
 }
-void XuatN(danhsach ds){
+void XuatN(NV a[], int n){
 	printf("\n                  Xuat danh sach nhan vien                          \n");
     printf("\n____________________________________________________________________\n");
     printf("%-20s %-20s %-15s %-15s \n", "Ho Ten "," Tinh"," Tuoi","Ma so Sinh vien");
-    for(int i = 0 ; i< ds.n ; i++){
-    	Xuat(ds.a[i]);
+    for(int i = 0 ; i< n ; i++){
+    	Xuat(a[i]);
 	}
 	printf("\n___________________________________________________________________\n");	
 }
-void ThemNV(danhsach &ds , NV &x, int b){
-	for(int i = ds.n ; i>b ;i--){
-		ds.a[i]=ds.a[i-1];
+void ThemNV(NV a[] ,int &n , NV &x, int b){
+	for(int i = n ; i>b ;i--){
+		a[i]=a[i-1];
 	}
-	ds.a[b]= x;
-	ds.n++;
+	a[b]= x;
+	n++;
 }
-void TimNvTheoTinh(danhsach ds , char c[] ){
+void TimNvTheoTinh(NV a[], int n , char c[] ){
 	int dem;
 	printf("%-20s %-20s %-20s \n","Ho Ten ","Tinh","Tuoi");
-	for( int i = 0 ; i < ds.n ; i++){
-		if(strcmp(ds.a[i].province,c)==0){
-			Xuat(ds.a[i]);
+	for( int i = 0 ; i < n ; i++){
+		if(strcmp(a[i].province,c)==0){
+			Xuat(a[i]);
 			dem++;
 		}
 	}
@@ -85,49 +78,48 @@ void TimNvTheoTinh(danhsach ds , char c[] ){
 		printf(" Khong co chuc nang nay!!!!!!!!!");
 	}
 }
-void Sapxep(danhsach ds ){
+void Sapxep(NV a[], int n ){
 	Employee t;
-	for(int i = 0; i <ds.n ; i++){
-		for(int j=i+1; j<=ds.n; j++){
-			if(strcmp(ds.a[i].province, ds.a[j].province)<0){
-				t=ds.a[i];
-				ds.a[i]=ds.a[j];
-				ds.a[j]=t;
+	for(int i = 0; i <n ; i++){
+		for(int j=i+1; j<=n; j++){
+			if(strcmp(a[i].province, a[j].province)<0){
+				t=a[i];
+				a[i]=a[j];
+				a[j]=t;
 			}
 		}
 	}
-	XuatN(ds);
+	XuatN(a,n);
 }
-void ThongKe(danhsach ds ){
+void ThongKe(NV a[], int n ){
 	int dem = 0 ;
-	for( int i = 0 ; i < ds.n ; i++){
+	for( int i = 0 ; i < n ; i++){
 		dem++;
-		if(strcmp(ds.a[i].province,ds.a[i+1].province)!=0){
-			printf("\n\t %s co %d nhan vien .",ds.a[i].province,dem);
+		if(strcmp(a[i].province,a[i+1].province)!=0){
+			printf("\n\t %s co %d nhan vien .",a[i].province,dem);
 			dem=0;
        	}
 	}
 }
-void xuatFile(danhsach ds,char fileName[] ){
+void xuatFile(NV a[], int n,char fileName[] ){
 	FILE * fp;
     fp = fopen (fileName,"w");
     fprintf(fp, "%-20s %-20s %-20s %-20s \n", "Ho Ten","Tinh", "Tuoi","Ma So Sinh Vien");
-    for(int i = 0;i < ds.n;i++){
-      fprintf(fp, "%-20s %-20s %-20s %-20s \n",ds.a[i].name,ds.a[i].province,ds.a[i].age,ds.a[i].mssv);
+    for(int i = 0;i < n;i++){
+      fprintf(fp, "%-20s %-20s %-20s %-20s \n",a[i].name,a[i].province,a[i].age,a[i].mssv);
     }
     fclose (fp);
 }
 
 void menu(){
-	danhsach ds;
 	NV x;
-	char fileName[] = "employee.txt";
+	char fileName[] = "employee.dat";
 	int k,b,n;
 	char c[20];
 	bool daNhap = false ;
 	do{
 		printf("\n Nhap so luong nhan vien : ");
-		scanf("%d",&ds.n);
+		scanf("%d",&n);
 	}while(n<=0);
 	NV a[max];
 	while(true){
@@ -148,7 +140,7 @@ void menu(){
 	switch(k){
 		case 1:{
 			printf("\n Ban da chon nhap ten nhan vien !");
-			NhapN(ds);	
+			NhapN(a,n);	
 			printf("\n Ban da nhap thanh cong !\n");
 			daNhap=true;
 			printf("\n Vui long nhap phim bat ki de tiep tuc !");
@@ -158,7 +150,7 @@ void menu(){
 		case 2: {
 		     if(daNhap){
                     printf("\nBan da chon xuat DS  nhan vien!");
-                    XuatN(ds);
+                    XuatN(a,n);
                 }else{
                     printf("\nNhap DS nhan vien truoc!!!!");
                 }
@@ -171,15 +163,15 @@ void menu(){
 			    printf("\n Them nhan vien\n ");
 				printf(" Nhap so vi tri can chen :");
 				scanf("%d",&b);
-				if(b>ds.n){
+				if(b>n){
 					printf(" VUI LONG NHAP LAI !!!!");
 				}
-			}while(b>ds.n);
+			}while(b>n);
 	
 			    Nhap(x);
-				ThemNV(ds,x,b);
+				ThemNV(a,n,x,b);
 				printf("\n thong tin sinh vien da them vao :\n");
-				XuatN(ds);
+				XuatN(a,n);
 				getch();
 				break;
 				}
@@ -190,13 +182,13 @@ void menu(){
 				gets(c);
 				printf("\n Du lieu nhan vien can tim la \n\n");
 				printf("\n_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_\n");
-			    TimNvTheoTinh(ds,c);
+			    TimNvTheoTinh(a,n,c);
 			    getch();
 	 			break;	
 	     	}
 	    case 5: {
 	    	printf(" Thong tin nhan vien sau khi sap xep la: \n");
-	       	Sapxep(ds);
+	       	Sapxep(a,n);
 		    fflush(stdin);
 		    getch();
 			break;
@@ -204,14 +196,14 @@ void menu(){
 		case 6:{
 			fflush(stdin);
 			printf("\n Thong ke nhan vien theo tinh \n");
-			ThongKe(ds);
+			ThongKe(a,n);
 			getch();
 			break;
 		}
 		case 7:{
 			if(daNhap){
                     printf("\nBan da chon xuat DS SV!");
-                    xuatFile(ds,fileName);
+                    xuatFile(a,n,fileName);
                 }
 			else{
                    printf("\nNhap DS SV truoc!!!!");
