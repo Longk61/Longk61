@@ -124,14 +124,14 @@ void menu(){
 	NV x;
 	danhsach ds;
 	char fileName[] = "employee.dat";
-	int k,b,d;
+	int k,b,d, flat = 1;
 	char c[20];
 	bool daNhap = false ;
 	do{
 		printf("\n Nhap so luong nhan vien : ");
 		scanf("%d",&ds.n);
 	}while(ds.n<=0);
-	while(true){
+	while(flat){
 		system("cls");
 		printf("\n ******************************************************************\n");
 		printf("**                CHUONG TRINH QUAN LY NHAN VIEN                  **\n");
@@ -253,10 +253,8 @@ void menu(){
 		
 		 case 8:{
 		    printf(" Ban da  chon thoat chuong trinh !");
-		    while(d){
-		    	d=0;
-			}
-		
+		    flat = 0;
+		    break;
 	     }
 		default:
                 printf("\nKhong co chuc nang nay!");
